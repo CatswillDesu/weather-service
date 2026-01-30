@@ -24,7 +24,7 @@ export class GeoService {
   private get nominatimApiUrl(): string {
     return this.configService.get<string>(
       'NOMINATIM_API_URL',
-      'https://nominatim.openstreetmap.org/search',
+      'https://nominatim.openstreetmap.org',
     );
   }
 
@@ -50,7 +50,7 @@ export class GeoService {
 
     try {
       const response = await axios.get<NominatimResponseDto[]>(
-        this.nominatimApiUrl,
+        `${this.nominatimApiUrl}/search`,
         {
           params: {
             q: name,

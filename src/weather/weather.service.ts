@@ -50,14 +50,14 @@ export class WeatherService {
   private get yrApiUrl(): string {
     return this.configService.get<string>(
       'YR_API_URL',
-      'https://api.met.no/weatherapi/locationforecast/2.0/compact',
+      'https://api.met.no/weatherapi/locationforecast/2.0',
     );
   }
 
   private get userAgent(): string {
     return this.configService.get<string>(
       'USER_AGENT',
-      'BelgradeWeatherService/1.0 (test@example.com)',
+      'BelgradeWeatherService/1.0',
     );
   }
 
@@ -126,7 +126,7 @@ export class WeatherService {
 
     try {
       const response = await this.limiter.schedule(() =>
-        axios.get(this.yrApiUrl, {
+        axios.get(`${this.yrApiUrl}/compact`, {
           params: { lat, lon },
           headers,
           validateStatus: (status) =>

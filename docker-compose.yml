@@ -1,0 +1,35 @@
+version: '3.8'
+
+services:
+  weather-service:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: builder # Use builder stage for development to include devDependencies
+    ports:
+      - '3000:3000'
+    env_file:
+      - .env
+    environment:
+      - NODE_ENV=development
+    volumes:
+      - .:/app
+      - /app/node_modules
+    command: npm run start:dev
+    restart: unless-stopped
+    networks:
+      - weather-network
+    depends_on:
+      - redis
+
+  redis:
+    image: redis:alpine
+    ports:
+      - '6380:6379'
+    restart: unless-stopped
+    networks:
+      - weather-network
+
+networks:
+  weather-network:
+    driver: bridge

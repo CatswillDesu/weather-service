@@ -1,0 +1,26 @@
+version: '3.8'
+
+services:
+  weather-service:
+    build: .
+    ports:
+      - "${PORT:-3000}:3000"
+    environment:
+      - NODE_ENV=production
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+      - YR_API_URL=${YR_API_URL}
+      - USER_AGENT=${USER_AGENT}
+      - NOMINATIM_API_URL=${NOMINATIM_API_URL}
+    depends_on:
+      - redis
+    restart: always
+
+  redis:
+    image: redis:alpine
+    restart: always
+    volumes:
+      - redis_data:/data
+
+volumes:
+  redis_data:

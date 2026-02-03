@@ -30,7 +30,9 @@ async function bootstrap() {
     .setVersion('1.0')
     .build();
   const document = SwaggerModule.createDocument(app, config);
-  SwaggerModule.setup('swagger', app, document);
+  SwaggerModule.setup('docs', app, document, {
+    useGlobalPrefix: true,
+  });
 
   await app.listen(process.env.PORT || 3000, '0.0.0.0');
 }
